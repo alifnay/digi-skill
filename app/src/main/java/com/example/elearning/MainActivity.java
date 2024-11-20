@@ -14,8 +14,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvSubject;
-    private SubjectAdapter subjectAdapter;
-    private ArrayList<Subject> subjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         initComponents();
 
-        subjects = prepareData();
+        ArrayList<Subject> subjects = prepareData();
 
-        subjectAdapter = new SubjectAdapter(subjects, MainActivity.this);
+        SubjectAdapter subjectAdapter = new SubjectAdapter(subjects, MainActivity.this);
         LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
         rvSubject.setLayoutManager(manager);
         rvSubject.setAdapter(subjectAdapter);
