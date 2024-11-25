@@ -9,15 +9,35 @@
         android:background="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/tvSubjectName"
-            android:layout_width="wrap_content"
+        <!-- Layout Horizontal untuk TextView dan Ikon -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="18sp"
-            android:textColor="#000000" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="12dp">
+
+            <!-- TextView untuk Judul -->
+            <TextView
+                android:id="@+id/tvSubjectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/primary"
+                android:textStyle="bold" />
+
+            <!-- Ikon Next -->
+            <ImageView
+                android:id="@+id/ivNextIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/next_arrow"
+                />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChapters"
