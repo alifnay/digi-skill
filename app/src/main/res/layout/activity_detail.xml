@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/detail"
     android:fitsSystemWindows="true"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_margin="12dp"
         android:gravity="center_vertical"
-        android:layout_margin="12dp">
+        android:orientation="horizontal">
 
         <!-- Ikon Next -->
         <ImageView
@@ -28,9 +27,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="18sp"
             android:textColor="@color/primary"
+            android:textSize="18sp"
             android:textStyle="bold" />
+        <!-- aku ga tau ini yt API nya gimana jadi ku skip dulu -->
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/review_button"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginLeft="12sp"
+        android:backgroundTint="#00783C3C"
+        android:text="Add Review"
+        android:textColor="#183D4F"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:strokeColor="#183D4F"
+        app:strokeWidth="1sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
 
 </LinearLayout>
