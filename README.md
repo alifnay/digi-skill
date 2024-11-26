@@ -12,7 +12,7 @@
 1. Ataka Dzulfikar
 2. Danendra Dipa Dananjaya
 3. Alif Naywa Azzikra
-4. 
+4. Azhar Aji Darmawan
 
 ## Teknologi yang Digunakan
 
