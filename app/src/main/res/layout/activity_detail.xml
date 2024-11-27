@@ -30,11 +30,9 @@
             android:textColor="@color/primary"
             android:textSize="18sp"
             android:textStyle="bold" />
-        <!-- aku ga tau ini yt API nya gimana jadi ku skip dulu -->
-
 
     </LinearLayout>
-
+    <!-- aku ga tau ini yt API nya gimana jadi ku skip dulu -->
     <TextView
         android:id="@+id/description_title"
         android:layout_width="match_parent"
@@ -52,7 +50,7 @@
         android:layout_marginLeft="12sp"
         android:layout_marginTop="8sp"
         android:layout_marginRight="12sp"
-        android:text="unga bunga tobangado"
+        android:text="@string/description"
         android:textSize="12sp" />
 
     <Button
@@ -78,6 +76,46 @@
         android:text="Modul "
         android:textSize="16sp"
         android:textStyle="bold" />
+
+    <!-- di bawah ini button nya iteratif berdasarkan jumlah modul yang ada di database,
+    aku ga tau caranya buat loop tampilan di android studio yang ngambil data dari database -->
+    <Button
+        android:id="@+id/modul_select"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginRight="12sp"
+        android:backgroundTint="#183D4F"
+        android:drawableLeft="@drawable/playbutton_cliked"
+        android:paddingLeft="16dp"
+        android:paddingTop="15dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="15dp"
+        android:text="Introduction to HTML"
+        android:textAlignment="textStart"
+        android:textColor="#AEC3CD"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="20sp" />
+
+    <Button
+        android:id="@+id/modul_select2"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginRight="12sp"
+        android:backgroundTint="#E1ECFE"
+        android:drawableLeft="@drawable/playbutton_notclick"
+        android:paddingLeft="16dp"
+        android:paddingTop="15dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="15dp"
+        android:text="Introduction to HTML"
+        android:textAlignment="textStart"
+        android:textColor="#183D4F"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="20sp" />
 
 
 </LinearLayout>
