@@ -21,12 +21,13 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.CustomVi
     private Context context;
     private ArrayList<Chapter> chapters;
     private LayoutInflater inflater;
+    private OnChapterClickListener chapterClickListener;
 
-    public ChapterAdapter(Context context, ArrayList<Chapter> chapters) {
+    public ChapterAdapter(Context context, ArrayList<Chapter> chapters, OnChapterClickListener listener) {
         this.context = context;
         this.chapters = chapters;
         this.inflater = LayoutInflater.from(context);
-
+        this.chapterClickListener = listener; // Inisialisasi listener
     }
 
     @Override
@@ -41,13 +42,19 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.CustomVi
         Chapter chapter = chapters.get(position);
         holder.tvChapterName.setText(chapter.chapterName);
         Picasso.get().load(chapter.imageUrl).into(holder.ivChapter);
+
+        // Handle klik item
+        holder.itemView.setOnClickListener(view -> {
+            if (chapterClickListener != null) {
+                chapterClickListener.onChapterClick(chapter);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return chapters.size();
     }
-
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -61,4 +68,9 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.CustomVi
             ivChapter = (ImageView) itemView.findViewById(R.id.ivChapter);
         }
     }
+
+    public interface OnChapterClickListener {
+        void onChapterClick(Chapter chapter);
+    }
+
 }

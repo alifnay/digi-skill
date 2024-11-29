@@ -30,13 +30,12 @@
                 android:textStyle="bold" />
 
             <!-- Ikon Next -->
-            <ImageView
-                android:id="@+id/ivNextIcon"
+            <Button
+                android:id="@+id/btnNextIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/next_arrow"
-                />
+                android:background="@drawable/next_arrow" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

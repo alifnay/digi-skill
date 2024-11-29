@@ -51,7 +51,7 @@
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="44dp"
         android:layout_marginTop="8dp"
         android:text="Email"
         android:textColor="@color/white"

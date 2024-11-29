@@ -1,6 +1,9 @@
 package com.example.elearning;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
         rvSubject.setLayoutManager(manager);
         rvSubject.setAdapter(subjectAdapter);
 
+        // Menemukan tombol btnNextIcon
+        Button btnNextIcon = findViewById(R.id.btnNextIcon);
     }
 
     private void initComponents() {
         rvSubject = findViewById(R.id.rvSubject);
-
     }
 
     private ArrayList<Subject> prepareData() {
