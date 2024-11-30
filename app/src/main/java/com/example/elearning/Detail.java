@@ -35,8 +35,7 @@ public class Detail extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Detail.this, MainActivity.class);
-                startActivity(intent);  // Pindah ke ActivityDetail
+                finish();  // Menutup halaman Profile dan kembali ke MainActivity
             }
         });
     }
