@@ -3,6 +3,8 @@ package com.example.elearning;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvSubject;
+    private TextView tvUsername, tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initComponents();
+        ImageButton btnEditProfile = findViewById(R.id.btnEditProfile);
+        btnEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Profile.class);
+            startActivity(intent);
+        });
+
+        // Referensi TextView di activity_main.xml
+        tvUsername = findViewById(R.id.tvUsername);
+        tvEmail = findViewById(R.id.tvEmail);
+        // Ambil data dari Intent
+        String username = getIntent().getStringExtra("username");
+        String email = getIntent().getStringExtra("email");
+
+        // Tampilkan data ke TextView
+        if (username != null) {
+            tvUsername.setText(username);
+        }
+        if (email != null) {
+            tvEmail.setText(email);
+        }
 
         ArrayList<Subject> subjects = prepareData();
 
@@ -31,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this);
         rvSubject.setLayoutManager(manager);
         rvSubject.setAdapter(subjectAdapter);
-
         // Menemukan tombol btnNextIcon
-        Button btnNextIcon = findViewById(R.id.btnNextIcon);
+        // Button btnNextIcon = findViewById(R.id.btnNextIcon);
+
     }
 
     private void initComponents() {

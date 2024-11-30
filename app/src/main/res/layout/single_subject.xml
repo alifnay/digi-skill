@@ -27,7 +27,8 @@
                 android:layout_weight="1"
                 android:textSize="18sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginHorizontal="12dp"/>
 
             <!-- Ikon Next -->
             <Button
@@ -41,7 +42,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChapters"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="12dp"/>
 
     </LinearLayout>
 
