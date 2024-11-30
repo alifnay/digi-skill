@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         initComponents();
         ImageButton btnEditProfile = findViewById(R.id.btnEditProfile);
-        btnEditProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Profile.class);
-            startActivity(intent);
-        });
 
         // Referensi TextView di activity_main.xml
         tvUsername = findViewById(R.id.tvUsername);
@@ -47,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
         if (email != null) {
             tvEmail.setText(email);
         }
+
+        // Ketika tombol edit profile diklik
+        btnEditProfile.setOnClickListener(v -> {
+            // Ambil data username dan email dari TextView
+            String usernameToSend = tvUsername.getText().toString();
+            String emailToSend = tvEmail.getText().toString();
+
+            // Kirimkan data ke ProfileActivity
+            Intent intent = new Intent(MainActivity.this, Profile.class);
+            intent.putExtra("username", usernameToSend);
+            intent.putExtra("email", emailToSend);
+            startActivity(intent);
+        });
 
         ArrayList<Subject> subjects = prepareData();
 
