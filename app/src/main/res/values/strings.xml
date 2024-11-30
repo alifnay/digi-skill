@@ -11,4 +11,28 @@
         velit esse cillum dolore eu fugiat nulla pariatur.
         Excepteur sint occaecat cupidatat non proident,
         sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <string name="descriptionhtml">Web development is the process of building, programming, and maintaining websites and web applications. Website developers use various programming languages, like HTML, CSS, and JavaScript.</string>
+    <string name="descriptioncss">CSS digunakan untuk memberi gaya dan tata letak halaman web.</string>
+    <string name="descriptionjs">JavaScript digunakan untuk membuat halaman web lebih interaktif dan dinamis.</string>
+    <string name="descriptionrd">Ini adalah cource untuk belajar responsive design</string>
+    <string name="descriptionwh">Ini adalah cource untuk belajar web hosting</string>
+    <string name="descriptionmd">Ini adalah course untuk belajar Mobile Development</string>
+    <string name="descriptionbui">Ini adalah course untuk belajar Building User Interfaces</string>
+    <string name="descriptionhui">Ini adalah course untuk belajar Handling User Input</string>
+    <string name="descriptiondsp">Ini adalah course untuk belajar Data Storage and Persistence</string>
+    <string name="descriptionda">Ini adalah course untuk belajar Data Analysis</string>
+    <string name="descriptiondct">Ini adalah course untuk belajar Data Collection Techniques</string>
+    <string name="descriptiondcp">Ini adalah course untuk belajar Data Cleaning and Preprocessing</string>
+    <string name="descriptioneda">Ini adalah course untuk belajar Exploratory Data Analysis</string>
+    <string name="descriptioniml">Ini adalah course untuk belajar Introduction to Machine Learning</string>
+    <string name="descriptionmem">Ini adalah course untuk belajar Model Evaluation and Metrics</string>
+    <string name="descriptionsl">Ini adalah course untuk belajar Supervised Learning</string>
+    <string name="descriptionul">Ini adalah course untuk belajar Unsupervised Learning</string>
+    <string name="descriptionfe">Ini adalah course untuk belajar Feature Engineering</string>
+    <string name="descriptionid">Ini adalah course untuk belajar DevOps</string>
+    <string name="descriptionci">Ini adalah course untuk belajar Continuous Integration</string>
+    <string name="descriptioncd">Ini adalah course untuk belajar Continuous Deployment</string>
+    <string name="descriptioniac">Ini adalah course untuk belajar Infrastructure as Code</string>
+    <string name="descriptionmal">Ini adalah course untuk belajar Monitoring and Logging</string>
 </resources>

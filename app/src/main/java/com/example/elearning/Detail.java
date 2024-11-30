@@ -1,17 +1,13 @@
 package com.example.elearning;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class Detail extends AppCompatActivity {
 
@@ -25,18 +21,84 @@ public class Detail extends AppCompatActivity {
 
         // Ambil data dari Intent
         String chapterName = getIntent().getStringExtra("chapterName");
+        Log.d("DetailActivity", "Chapter Name: " + chapterName);
+
+        // Deklarasi elemen UI
         TextView tvChapterName = findViewById(R.id.tvSubjectName);
-        tvChapterName.setText(chapterName);;
-        // Set elemen kedua
         TextView tvChapterName2 = findViewById(R.id.tvSubjectName2);
-        tvChapterName2.setText(chapterName);
-        // Back button
+        TextView modulDescription = findViewById(R.id.modul_description);
+
+        // Atur nama chapter di TextView
+        if (chapterName != null) {
+            tvChapterName.setText(chapterName);
+            tvChapterName2.setText(chapterName);
+
+            // Atur deskripsi berdasarkan chapterName
+            String description = getDescriptionByChapter(chapterName);
+            modulDescription.setText(description);
+        }
+
+        // Tombol kembali
         Button btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();  // Menutup halaman Profile dan kembali ke MainActivity
+                finish();  // Menutup halaman Detail dan kembali ke aktivitas sebelumnya
             }
         });
+    }
+
+    // Metode untuk mengambil deskripsi berdasarkan nama chapter
+    private String getDescriptionByChapter(String chapterName) {
+        switch (chapterName) {
+            case "Introduction to HTML":
+                return getString(R.string.descriptionhtml); // Deskripsi untuk HTML
+            case "CSS Basics":
+                return getString(R.string.descriptioncss); // Deskripsi untuk CSS
+            case "JavaScript Fundamentals":
+                return getString(R.string.descriptionjs); // Deskripsi untuk JavaScript
+            case "Responsive Design":
+                return getString(R.string.descriptionrd); // Deskripsi untuk Responsive Design
+            case "Introduction to Web Hosting":
+                return getString(R.string.descriptionwh); // Deskripsi untuk web hosting
+            case "Introduction to Mobile Development":
+                return getString(R.string.descriptionmd); // Deskripsi untuk mobile development
+            case "Building User Interfaces":
+                return getString(R.string.descriptionbui); // Deskripsi untuk building user interfaces
+            case "Handling User Input":
+                return getString(R.string.descriptionhui); // Deskripsi untuk handling user input
+            case "Data Storage and Persistence":
+                return getString(R.string.descriptiondsp); // Deskripsi untuk data storage and persistence
+            case "Introduction to Data Analysis":
+                return getString(R.string.descriptionda); // Deskripsi untuk data analysis
+            case "Data Collection Techniques":
+                return getString(R.string.descriptiondct); // Deskripsi untuk data collection techniques
+            case "Data Cleaning and Preprocessing":
+                return getString(R.string.descriptiondcp); // Deskripsi untuk data cleaning and preprocessing
+            case "Exploratory Data Analysis (EDA)":
+                return getString(R.string.descriptioneda); // Deskripsi untuk exploratory data analysis
+            case "Introduction to Machine Learning":
+                return getString(R.string.descriptioniml); // Deskripsi untuk introduction to machine learning
+            case "Model Evaluation and Metrics":
+                return getString(R.string.descriptionmem); // Deskripsi untuk model evaluation and metrics
+            case "Supervised Learning":
+                return getString(R.string.descriptionsl); // Deskripsi untuk supervised learning
+            case "Unsupervised Learning":
+                return getString(R.string.descriptionul); // Deskripsi untuk unsupervised learning
+            case "Feature Engineering":
+                return getString(R.string.descriptionfe); // Deskripsi untuk feature engineering
+            case "Introduction to DevOps":
+                return getString(R.string.descriptionid); // Deskripsi untuk introduction to DevOps
+            case "Continuous Integration (CI)":
+                return getString(R.string.descriptionci); // Deskripsi untuk continuous integration
+            case "Continuous Deployment (CD)":
+                return getString(R.string.descriptioncd); // Deskripsi untuk continuous deployment
+            case "Infrastructure as Code (IaC)":
+                return getString(R.string.descriptioniac); // Deskripsi untuk infrastructure as code
+            case "Monitoring and Logging":
+                return getString(R.string.descriptionmal); // Deskripsi untuk monitoring and logging
+            default:
+                return getString(R.string.description); // Deskripsi default
+        }
     }
 }
