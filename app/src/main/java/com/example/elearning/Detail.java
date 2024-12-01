@@ -149,7 +149,9 @@ public class Detail extends AppCompatActivity {
         chapterToVideoMap.put("Feature Engineering", "ft77eXtn30Q");
         chapterToVideoMap.put("Introduction to DevOps", "Me3ea4nUt0U");
         chapterToVideoMap.put("Continuous Integration (CI)", "1er2cjUq1UI");
-
+        chapterToVideoMap.put("Continuous Deployment (CD)", "2TTU5BB-k9U");
+        chapterToVideoMap.put("Infrastructure as Code (IaC)", "POPP2WTJ8es");
+        chapterToVideoMap.put("Monitoring and Logging", "nD6JfA9nGOg");
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
