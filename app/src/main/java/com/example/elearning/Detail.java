@@ -3,11 +3,14 @@ package com.example.elearning;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
 
 public class Detail extends AppCompatActivity {
 
@@ -27,6 +30,12 @@ public class Detail extends AppCompatActivity {
         TextView tvChapterName = findViewById(R.id.tvSubjectName);
         TextView tvChapterName2 = findViewById(R.id.tvSubjectName2);
         TextView modulDescription = findViewById(R.id.modul_description);
+        WebView youtubeWebView = findViewById(R.id.ivBanner);
+        try {
+            youtubeWebView = findViewById(R.id.ivBanner);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         // Atur nama chapter di TextView
         if (chapterName != null) {
@@ -36,6 +45,22 @@ public class Detail extends AppCompatActivity {
             // Atur deskripsi berdasarkan chapterName
             String description = getDescriptionByChapter(chapterName);
             modulDescription.setText(description);
+
+            // Ambil video ID berdasarkan chapterName
+            String videoId = getVideoIdByChapter(chapterName);
+
+            // Muat video YouTube ke WebView
+            if (!videoId.isEmpty()) {
+                youtubeWebView.getSettings().setJavaScriptEnabled(true); // Aktifkan JavaScript
+                youtubeWebView.loadData(
+                        "<html><body style='margin:0;padding:0;'><iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + videoId + "\" " +
+                                "frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe></body></html>",
+                        "text/html",
+                        "utf-8"
+                );
+            } else {
+                youtubeWebView.setVisibility(View.GONE); // Sembunyikan WebView jika tidak ada video
+            }
         }
 
         // Tombol kembali
@@ -100,5 +125,10 @@ public class Detail extends AppCompatActivity {
             default:
                 return getString(R.string.description); // Deskripsi default
         }
+    }
+
+    private String getVideoIdByChapter(String chapterName) {
+        HashMap<String, String> chapterToVideoMap = new HashMap<>();
+
     }
 }
