@@ -53,6 +53,7 @@ public class Profile extends AppCompatActivity {
         profile = findViewById(R.id.ivProfilePicture);
         profileeditbutton = findViewById(R.id.btn_editprofile);
 
+
         profileeditbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
