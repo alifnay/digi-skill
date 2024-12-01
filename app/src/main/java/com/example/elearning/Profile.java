@@ -1,13 +1,20 @@
 package com.example.elearning;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.Objects;
 
@@ -24,6 +32,11 @@ public class Profile extends AppCompatActivity {
     private Button btnSave;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    private ImageView profile;
+    private ImageButton profileeditbutton;
+    private final int IMG_REQ =2000;
+    Uri imageProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +47,23 @@ public class Profile extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        // Kustomisasi gambar profile
+
+        profile = findViewById(R.id.ivProfilePicture);
+        profileeditbutton = findViewById(R.id.btn_editprofile);
+
+
+        profileeditbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent kustomprofileintent = new Intent(Intent.ACTION_PICK);
+                kustomprofileintent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(kustomprofileintent,IMG_REQ);
+
+
+            }
         });
 
         // Back button
@@ -101,6 +131,16 @@ public class Profile extends AppCompatActivity {
                             Toast.makeText(Profile.this, "Gagal memperbarui profil: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode==RESULT_OK){
+            imageProfile = data.getData();
+            profile.setImageURI(imageProfile);
+        }
     }
 }
 
