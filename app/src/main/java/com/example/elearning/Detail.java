@@ -132,7 +132,7 @@ public class Detail extends AppCompatActivity {
         chapterToVideoMap.put("Introduction to HTML", "F7oLxNzpYB4");
         chapterToVideoMap.put("CSS Basics", "Z4pCqK-V_Wo");
         chapterToVideoMap.put("JavaScript Fundamentals", "xwKbtUP87Dk");
-
+        chapterToVideoMap.put("Responsive Design", "ZYV6dYtz4HA");
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
