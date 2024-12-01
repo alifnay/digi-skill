@@ -1,9 +1,13 @@
 package com.example.elearning;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.example.elearning.models.Subject;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvSubject;
     private TextView tvUsername, tvEmail;
+    private ImageView ivProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                         // Ambil data terbaru
                         String username = documentSnapshot.getString("username");
                         String email = documentSnapshot.getString("email");
+                        String profile_picture = documentSnapshot.getString("profile_picture");
 
                         // Perbarui TextView
                         if (username != null) {
@@ -275,4 +282,5 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
     }
+
 }

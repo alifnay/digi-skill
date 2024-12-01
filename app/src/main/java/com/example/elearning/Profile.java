@@ -1,10 +1,13 @@
 package com.example.elearning;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,10 +23,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class Profile extends AppCompatActivity {
@@ -92,10 +101,14 @@ public class Profile extends AppCompatActivity {
                         String username = documentSnapshot.getString("username");
                         String email = documentSnapshot.getString("email");
                         String gender = documentSnapshot.getString("gender");
+                        String profile_picture = documentSnapshot.getString("profile_picture");
 
                         editNama.setText(username);
                         editEmail.setHint(email); // Gunakan hint untuk tampilan email
                         editGender.setText(gender);
+                        if (profile_picture != null) {
+                            displayProfileImage(profile_picture);
+                        }
                     }
                 })
                 .addOnFailureListener(e ->
@@ -133,13 +146,91 @@ public class Profile extends AppCompatActivity {
         });
     }
 
+    private String encodeImageToBase64(Uri imageUri) {
+        try {
+            // Membaca file gambar dari URI
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+
+            // Membaca gambar menjadi bitmap
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            // Mengonversi bitmap menjadi byte array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+            // Mengonversi byte array ke string Base64
+            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void saveImageToFirestore(String base64Image) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        // Menyimpan Base64 image ke Firestore
+        firestore.collection("users").document(userId)
+                .update("profile_picture", base64Image)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(Profile.this, "Gambar berhasil disimpan", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Profile.this, "Gagal menyimpan gambar", Toast.LENGTH_SHORT).show();
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode==RESULT_OK){
-            imageProfile = data.getData();
-            profile.setImageURI(imageProfile);
+        if (resultCode == RESULT_OK && data != null) {
+            // Mengambil URI gambar yang dipilih
+            Uri imageUri = data.getData();
+
+            // Mengonversi gambar ke Base64
+            String base64Image = encodeImageToBase64(imageUri);
+
+            if (base64Image != null) {
+                // Menyimpan Base64 ke Firestore
+                saveImageToFirestore(base64Image);
+
+                // Ambil gambar terbaru dari Firestore dan tampilkan
+                firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String base64ImageFromFirestore = documentSnapshot.getString("profile_picture");
+                                if (base64ImageFromFirestore != null) {
+                                    displayProfileImage(base64ImageFromFirestore);
+                                }
+                            }
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(Profile.this, "Gagal memuat gambar", Toast.LENGTH_SHORT).show());
+            } else {
+                Toast.makeText(Profile.this, "Gagal mengonversi gambar", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private Bitmap decodeBase64ToBitmap(String base64Image) {
+        try {
+            byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Menampilkan gambar di ImageView
+    private void displayProfileImage(String base64Image) {
+        Bitmap bitmap = decodeBase64ToBitmap(base64Image);
+        if (bitmap != null) {
+            profile.setImageBitmap(bitmap);  // Update tampilan dengan gambar baru
+        } else {
+            Toast.makeText(Profile.this, "Gagal mendekode gambar", Toast.LENGTH_SHORT).show();
         }
     }
 }
