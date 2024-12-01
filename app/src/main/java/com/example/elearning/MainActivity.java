@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Referensi TextView di activity_main.xml
         tvUsername = findViewById(R.id.tvUsername);
         tvEmail = findViewById(R.id.tvEmail);
+        ivProfilePicture = findViewById(R.id.ivProfilePicture);
 
         // Ketika tombol edit profile diklik
         btnEditProfile.setOnClickListener(v -> {
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                         // Ambil data terbaru
                         String username = documentSnapshot.getString("username");
                         String email = documentSnapshot.getString("email");
-                        String profile_picture = documentSnapshot.getString("profile_picture");
+                        String profilePicture = documentSnapshot.getString("profile_picture");
 
                         // Perbarui TextView
                         if (username != null) {
@@ -276,11 +277,32 @@ public class MainActivity extends AppCompatActivity {
                         if (email != null) {
                             tvEmail.setText(email);
                         }
+
+                        // Perbarui gambar profil
+                        if (profilePicture != null) {
+                            Bitmap bitmap = decodeBase64ToBitmap(profilePicture);
+                            if (bitmap != null) {
+                                ivProfilePicture.setImageBitmap(bitmap); // Set gambar ke ImageView
+                            } else {
+                                Toast.makeText(MainActivity.this, "Gagal mendekode gambar", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(MainActivity.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    // Fungsi untuk mendekode Base64 menjadi Bitmap
+    private Bitmap decodeBase64ToBitmap(String base64Image) {
+        try {
+            byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
