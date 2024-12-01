@@ -23,12 +23,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -176,6 +172,10 @@ public class Profile extends AppCompatActivity {
                 .update("profile_picture", base64Image)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(Profile.this, "Gambar berhasil disimpan", Toast.LENGTH_SHORT).show();
+                    // Kirim data kembali ke MainActivity
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("profile_picture", base64Image);
+                    setResult(RESULT_OK, resultIntent);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(Profile.this, "Gagal menyimpan gambar", Toast.LENGTH_SHORT).show();
