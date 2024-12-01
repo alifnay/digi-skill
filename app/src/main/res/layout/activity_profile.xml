@@ -41,17 +41,19 @@
         android:paddingVertical="64dp"
         android:layout_gravity="center">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivProfilePicture"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:background="@drawable/profile"
+            app:shapeAppearanceOverlay="@style/lingkaranprofile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
+            android:id="@+id/btn_editprofile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
