@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.elearning.adapters.SubjectAdapter;
 import com.example.elearning.models.Chapter;
 import com.example.elearning.models.Subject;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,17 +36,6 @@ public class MainActivity extends AppCompatActivity {
         // Referensi TextView di activity_main.xml
         tvUsername = findViewById(R.id.tvUsername);
         tvEmail = findViewById(R.id.tvEmail);
-        // Ambil data dari Intent
-        String username = getIntent().getStringExtra("username");
-        String email = getIntent().getStringExtra("email");
-
-        // Tampilkan data ke TextView
-        if (username != null) {
-            tvUsername.setText(username);
-        }
-        if (email != null) {
-            tvEmail.setText(email);
-        }
 
         // Ketika tombol edit profile diklik
         btnEditProfile.setOnClickListener(v -> {
@@ -250,5 +243,36 @@ public class MainActivity extends AppCompatActivity {
         subjects.add(devops);
 
         return subjects;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Ambil ID pengguna dari FirebaseAuth
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+
+        // Ambil data terbaru dari Firestore
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Ambil data terbaru
+                        String username = documentSnapshot.getString("username");
+                        String email = documentSnapshot.getString("email");
+
+                        // Perbarui TextView
+                        if (username != null) {
+                            tvUsername.setText(username);
+                        }
+                        if (email != null) {
+                            tvEmail.setText(email);
+                        }
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
     }
 }
