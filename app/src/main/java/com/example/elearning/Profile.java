@@ -38,9 +38,7 @@ public class Profile extends AppCompatActivity {
 
         // Back button
         Button btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> {
-            finish(); // Menutup ProfileActivity dan kembali ke aktivitas sebelumnya
-        });
+        btnBack.setOnClickListener(v -> finish());
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -51,39 +49,58 @@ public class Profile extends AppCompatActivity {
         editGender = findViewById(R.id.edit_Gender);
         btnSave = findViewById(R.id.btn_save);
 
-        // Menampilkan data pengguna yang sudah ada (misalnya dari Intent atau Firestore)
-        // Misalnya, kamu bisa mengambil data pengguna yang sudah ada dari Intent yang dikirim dari LoginActivity
-        String username = getIntent().getStringExtra("username");
-        String email = getIntent().getStringExtra("email");
-        editNama.setText(username);
-        editEmail.setText(email);
+        // Tampilkan Toast ketika user mencoba mengklik input email
+        editEmail.setOnClickListener(v ->
+                Toast.makeText(Profile.this, "Email tidak dapat diubah", Toast.LENGTH_SHORT).show()
+        );
+
+        // Menampilkan data pengguna yang sudah ada dari Firestore
+        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String username = documentSnapshot.getString("username");
+                        String email = documentSnapshot.getString("email");
+                        String gender = documentSnapshot.getString("gender");
+
+                        editNama.setText(username);
+                        editEmail.setHint(email); // Gunakan hint untuk tampilan email
+                        editGender.setText(gender);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(Profile.this, "Gagal memuat data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
 
         // Ketika tombol Save diklik
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nama = editNama.getText().toString().trim();
-                String email = editEmail.getText().toString().trim();
-                String gender = editGender.getText().toString().trim();
+        btnSave.setOnClickListener(v -> {
+            String nama = editNama.getText().toString().trim();
+            String gender = editGender.getText().toString().trim();
 
-                if (nama.isEmpty() || email.isEmpty() || gender.isEmpty()) {
-                    Toast.makeText(Profile.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Mengambil ID pengguna dari Firebase Authentication
-                String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-
-                // Update data di Firestore
-                firestore.collection("users").document(userId)
-                        .update("username", nama, "email", email, "gender", gender)
-                        .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(Profile.this, "Profil berhasil diperbarui", Toast.LENGTH_SHORT).show();
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Profile.this, "Gagal memperbarui profil: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+            if (nama.isEmpty() || gender.isEmpty()) {
+                Toast.makeText(Profile.this, "Semua field harus diisi", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Update data di Firestore (hanya username dan gender)
+            firestore.collection("users").document(userId)
+                    .update("username", nama, "gender", gender)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(Profile.this, "Profil berhasil diperbarui", Toast.LENGTH_SHORT).show();
+
+                        // Muat ulang data ke input field
+                        firestore.collection("users").document(userId).get()
+                                .addOnSuccessListener(updatedSnapshot -> {
+                                    if (updatedSnapshot.exists()) {
+                                        editNama.setText(updatedSnapshot.getString("username"));
+                                        editGender.setText(updatedSnapshot.getString("gender"));
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(Profile.this, "Gagal memperbarui profil: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
         });
     }
 }
+
