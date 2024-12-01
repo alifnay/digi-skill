@@ -147,6 +147,9 @@ public class Detail extends AppCompatActivity {
         chapterToVideoMap.put("Supervised Learning", "4qVRBYAdLAo");
         chapterToVideoMap.put("Unsupervised Learning", "JnnaDNNb380");
         chapterToVideoMap.put("Feature Engineering", "ft77eXtn30Q");
+        chapterToVideoMap.put("Introduction to DevOps", "Me3ea4nUt0U");
+        chapterToVideoMap.put("Continuous Integration (CI)", "1er2cjUq1UI");
+
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
