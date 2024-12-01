@@ -142,6 +142,9 @@ public class Detail extends AppCompatActivity {
         chapterToVideoMap.put("Data Collection Techniques", "WjySQ_HcpsI");
         chapterToVideoMap.put("Data Cleaning and Preprocessing", "ylhwP6wFEag");
         chapterToVideoMap.put("Exploratory Data Analysis (EDA)", "QiqZliDXCCg");
+        chapterToVideoMap.put("Introduction to Machine Learning", "9gGnTQTYNaE");
+        chapterToVideoMap.put("Model Evaluation and Metrics", "PeYQIyOyKB8");
+        chapterToVideoMap.put("Supervised Learning", "4qVRBYAdLAo");
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
