@@ -130,6 +130,7 @@ public class Detail extends AppCompatActivity {
     private String getVideoIdByChapter(String chapterName) {
         HashMap<String, String> chapterToVideoMap = new HashMap<>();
         chapterToVideoMap.put("Introduction to HTML", "F7oLxNzpYB4");
+        chapterToVideoMap.put("CSS Basics", "Z4pCqK-V_Wo");
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
