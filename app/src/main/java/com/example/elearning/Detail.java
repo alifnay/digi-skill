@@ -131,6 +131,8 @@ public class Detail extends AppCompatActivity {
         HashMap<String, String> chapterToVideoMap = new HashMap<>();
         chapterToVideoMap.put("Introduction to HTML", "F7oLxNzpYB4");
         chapterToVideoMap.put("CSS Basics", "Z4pCqK-V_Wo");
+        chapterToVideoMap.put("JavaScript Fundamentals", "xwKbtUP87Dk");
+
 
         return chapterToVideoMap.getOrDefault(chapterName, ""); // Return ID default jika tidak ditemukan
     }
