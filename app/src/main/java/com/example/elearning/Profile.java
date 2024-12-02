@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -34,7 +35,7 @@ import java.util.Objects;
 public class Profile extends AppCompatActivity {
 
     private EditText editNama, editEmail, editGender;
-    private Button btnSave;
+    private Button btnSave, btnLogout;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     private ImageView profile;
@@ -83,6 +84,7 @@ public class Profile extends AppCompatActivity {
         editEmail = findViewById(R.id.edit_Email);
         editGender = findViewById(R.id.edit_Gender);
         btnSave = findViewById(R.id.btn_save);
+        btnLogout = findViewById(R.id.btn_logout);
 
         // Tampilkan Toast ketika user mencoba mengklik input email
         editEmail.setOnClickListener(v ->
@@ -140,6 +142,27 @@ public class Profile extends AppCompatActivity {
                             Toast.makeText(Profile.this, "Gagal memperbarui profil: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
         });
+
+        //Logout
+        btnLogout.setOnClickListener(v -> {
+            // Buat dialog konfirmasi
+            new AlertDialog.Builder(Profile.this)
+                    .setTitle("Konfirmasi Logout")
+                    .setMessage("Apakah Anda yakin ingin keluar?")
+                    .setPositiveButton("Ya", (dialog, which) -> {
+                        // Logout pengguna
+                        auth.signOut();
+                        Intent intent = new Intent(Profile.this, login.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish(); // Tutup Profile Activity
+                    })
+                    .setNegativeButton("Batal", (dialog, which) -> {
+                        dialog.dismiss(); // Tutup dialog jika batal
+                    })
+                    .show();
+        });
+
     }
 
     private String encodeImageToBase64(Uri imageUri) {
