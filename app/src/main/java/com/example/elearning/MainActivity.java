@@ -46,15 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Ketika tombol edit profile diklik
         btnEditProfile.setOnClickListener(v -> {
-            // Ambil data username dan email dari TextView
             String usernameToSend = tvUsername.getText().toString();
             String emailToSend = tvEmail.getText().toString();
 
-            // Kirimkan data ke ProfileActivity
             Intent intent = new Intent(MainActivity.this, Profile.class);
             intent.putExtra("username", usernameToSend);
             intent.putExtra("email", emailToSend);
-            startActivity(intent);
+            startActivityForResult(intent, 100); // 100 adalah request code
         });
 
         ArrayList<Subject> subjects = prepareData();
@@ -67,6 +65,56 @@ public class MainActivity extends AppCompatActivity {
         // Button btnNextIcon = findViewById(R.id.btnNextIcon);
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                // Jika berhasil, muat ulang data pengguna
+                refreshUserData();
+            } else {
+                // Jika resultCode bukan RESULT_OK, abaikan
+                Toast.makeText(this, "Perubahan tidak disimpan", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void refreshUserData() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+
+        firestore.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String username = documentSnapshot.getString("username");
+                        String email = documentSnapshot.getString("email");
+                        String profilePicture = documentSnapshot.getString("profile_picture");
+
+                        if (username != null) {
+                            tvUsername.setText(username);
+                        }
+                        if (email != null) {
+                            tvEmail.setText(email);
+                        }
+
+                        if (profilePicture == null || profilePicture.isEmpty()) {
+                            ivProfilePicture.setImageResource(R.drawable.profile); // Gambar default
+                        } else {
+                            Bitmap bitmap = decodeBase64ToBitmap(profilePicture);
+                            if (bitmap != null) {
+                                ivProfilePicture.setImageBitmap(bitmap);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(MainActivity.this, "Gagal memperbarui data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
+
 
     private void initComponents() {
         rvSubject = findViewById(R.id.rvSubject);

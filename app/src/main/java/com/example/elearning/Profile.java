@@ -59,17 +59,41 @@ public class Profile extends AppCompatActivity {
         profile = findViewById(R.id.ivProfilePicture);
         profileeditbutton = findViewById(R.id.btn_editprofile);
 
-
-        profileeditbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent kustomprofileintent = new Intent(Intent.ACTION_PICK);
-                kustomprofileintent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(kustomprofileintent,IMG_REQ);
-
-
-            }
+        profileeditbutton.setOnClickListener(view -> {
+            // Membuat dialog untuk memilih aksi
+            AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+            builder.setTitle("Pilih Aksi")
+                    .setItems(new String[]{"Pilih Gambar Baru", "Hapus Foto Profil"}, (dialog, which) -> {
+                        if (which == 0) {
+                            // Pilih Gambar Baru
+                            Intent kustomprofileintent = new Intent(Intent.ACTION_PICK);
+                            kustomprofileintent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(kustomprofileintent, IMG_REQ);
+                        } else if (which == 1) {
+                            // Hapus Foto Profil
+                            new AlertDialog.Builder(Profile.this)
+                                    .setTitle("Konfirmasi Hapus Foto Profil")
+                                    .setMessage("Apakah Anda yakin ingin menghapus foto profil?")
+                                    .setPositiveButton("Ya", (confirmDialog, confirmWhich) -> {
+                                        // Hapus dari Firestore
+                                        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                                        firestore.collection("users").document(userId)
+                                                .update("profile_picture", null)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    // Reset tampilan ke gambar default
+                                                    profile.setImageResource(R.drawable.profile);
+                                                    Toast.makeText(Profile.this, "Foto profil berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e ->
+                                                        Toast.makeText(Profile.this, "Gagal menghapus foto profil: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                                                );
+                                    })
+                                    .setNegativeButton("Batal", (confirmDialog, confirmWhich) -> confirmDialog.dismiss())
+                                    .show();
+                        }
+                    })
+                    .setNegativeButton("Batal", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
 
         // Back button
@@ -249,12 +273,23 @@ public class Profile extends AppCompatActivity {
 
     // Menampilkan gambar di ImageView
     private void displayProfileImage(String base64Image) {
-        Bitmap bitmap = decodeBase64ToBitmap(base64Image);
-        if (bitmap != null) {
-            profile.setImageBitmap(bitmap);  // Update tampilan dengan gambar baru
+        if (base64Image == null || base64Image.isEmpty()) {
+            profile.setImageResource(R.drawable.profile); // Gambar default
         } else {
-            Toast.makeText(Profile.this, "Gagal mendekode gambar", Toast.LENGTH_SHORT).show();
+            Bitmap bitmap = decodeBase64ToBitmap(base64Image);
+            if (bitmap != null) {
+                profile.setImageBitmap(bitmap);
+            } else {
+                profile.setImageResource(R.drawable.profile);
+                Toast.makeText(Profile.this, "Gagal mendekode gambar", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
     }
 }
 

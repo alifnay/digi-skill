@@ -58,44 +58,4 @@
         android:text="@string/description"
         android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/review_button"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:backgroundTint="#00783C3C"
-        android:layout_marginTop="12dp"
-        android:text="Add Review"
-        android:textColor="#183D4F"
-        android:textSize="12sp"
-        android:visibility="visible"
-        app:strokeColor="#183D4F"
-        app:strokeWidth="1sp" />
-
-    <TextView
-        android:id="@+id/modul_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24sp"
-        android:text="Modul "
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <!-- Container untuk modul buttons -->
-    <Button
-        android:id="@+id/moduleButtonsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:backgroundTint="#183D4F"
-        android:drawableLeft="@drawable/playbutton_clicked"
-        android:paddingLeft="16dp"
-        android:paddingTop="15dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="15dp"
-        android:text="Introduction to HTML"
-        android:textAlignment="textStart"
-        android:textColor="#AEC3CD"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:cornerRadius="20sp" />
-
 </LinearLayout>
