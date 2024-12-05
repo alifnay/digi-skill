@@ -75,7 +75,6 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
 
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rvChapters);
             tvHeading = (TextView) itemView.findViewById(R.id.tvSubjectName);
-            btnNextIcon = itemView.findViewById(R.id.btnNextIcon);
         }
     }
 }
