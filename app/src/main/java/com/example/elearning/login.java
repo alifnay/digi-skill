@@ -104,4 +104,15 @@ public class login extends AppCompatActivity {
             }
         });
     }
+    protected void onStart() {
+        super.onStart();
+
+        // Cek apakah pengguna sudah login
+        if (auth.getCurrentUser() != null) {
+            // Langsung ke MainActivity
+            Intent intent = new Intent(login.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Tutup LoginActivity
+        }
+    }
 }
